@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Register from '../register';
 import Login from '../login';
-import Chat from '../chat';
+import Channels from '../channels';
 
 function AppRouter() {
     const user = false;
@@ -9,9 +9,9 @@ function AppRouter() {
     return user ? 
         (
             <Routes>
-                <Route path="/" element={<Navigate to="/chat"/>}/>
-                <Route path="/chat" element={<Chat/>}/>
-                <Route path="*" element={<Navigate to="/chat"/>}/>
+                <Route path="/" element={<Navigate to="/channels"/>}/>
+                <Route path="/channels" element={<Channels/>}/>
+                <Route path="*" element={<Navigate to="/channels"/>}/>
             </Routes>
         )
         :
