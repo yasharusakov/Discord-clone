@@ -2,16 +2,17 @@ import { Routes, Route, Navigate } from 'react-router-dom';
 import Register from '../register';
 import Login from '../login';
 import Channels from '../channels';
+import useAuthState from '../../hooks/useAuthState';
 
 function AppRouter() {
-    const user = false;
+    const [ user ] = useAuthState();
 
     return user ? 
         (
             <Routes>
-                <Route path="/" element={<Navigate to="/channels"/>}/>
-                <Route path="/channels" element={<Channels/>}/>
-                <Route path="*" element={<Navigate to="/channels"/>}/>
+                <Route path="/" element={<Navigate to="/channels/@me"/>}/>
+                <Route path="/channels/@me" element={<Channels/>}/>
+                <Route path="*" element={<Navigate to="/channels/@me"/>}/>
             </Routes>
         )
         :

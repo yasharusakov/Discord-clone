@@ -1,8 +1,10 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import { getDatabase, set, ref } from 'firebase/database';
 
 function Register() {
+    const db = getDatabase();
     const auth = getAuth();
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -10,7 +12,17 @@ function Register() {
 
     const createUser = (e) => {
         e.preventDefault();
-        createUserWithEmailAndPassword(auth, email, password);
+        createUserWithEmailAndPassword(auth, email, password)
+            .then((userCredential) => {
+
+                const user = userCredential.user;
+
+                set(ref(db, 'users/' + user.uid), {
+                    username: username,
+                    email: email,
+                    password: password
+                });
+            })
     }
 
     return (
