@@ -1,24 +1,30 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { getDatabase, ref, onValue} from "firebase/database";
 import { getAuth } from 'firebase/auth';
+import { useDispatch } from "react-redux";
+import { setUserData } from "../../slices/userSlice";
+
+import SideBarChannels from "../sideBarChannels";
 
 import './channels.scss';
 
 function Channels() {
-    const [userData, setUserData] = useState({});
+    const dispatch = useDispatch();
     const auth = getAuth();
     const db = getDatabase();
-    const userRef = ref(db, 'users/' + auth.currentUser.uid);
-
+    
     useEffect(() => {
+        const userRef = ref(db, 'users/' + auth.currentUser.uid);
         onValue(userRef, (snapshot) => {
-            setUserData(snapshot.val())
+            dispatch(setUserData(snapshot.val()));
         });
     }, [])
 
     return (
         <div className="channels">
-
+            <div className="channels__container">
+                <SideBarChannels/>
+            </div>
         </div>
     )
 }
