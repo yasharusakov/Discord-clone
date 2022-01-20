@@ -1,17 +1,34 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 import { getDatabase, set, ref } from 'firebase/database';
+import { getStorage, getDownloadURL, ref as ref2 } from 'firebase/storage';
+
+function random() {
+    const numbers = [1, 2, 3];
+    return numbers[Math.floor(Math.random() * numbers.length)]
+}
 
 function Register() {
+    const storage = getStorage();
     const db = getDatabase();
     const auth = getAuth();
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [photoURL, setPhotoURL] = useState('');
+    
+    useEffect(() => {
+        const res = random();
+        const storageRef = ref2(storage, `/user${res}.png`);
+        getDownloadURL(storageRef).then((url) => {
+            setPhotoURL(url);
+        })
+    }, [])
 
     const createUser = (e) => {
         e.preventDefault();
+
         createUserWithEmailAndPassword(auth, email, password)
             .then((userCredential) => {
 
@@ -20,8 +37,11 @@ function Register() {
                 set(ref(db, 'users/' + user.uid), {
                     username: username,
                     email: email,
-                    password: password
+                    password: password,
+                    photoURL: photoURL
                 });
+
+                setPhotoURL('');
             })
     }
 
