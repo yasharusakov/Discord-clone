@@ -1,0 +1,74 @@
+.channel-side-bar {
+    background:#2f3136;
+    height: calc(100vh - 52px);
+    width: 240px;
+    &__header {
+        height: 48px;
+        border-bottom: 0.4px solid #000;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding: 0 16px;
+    }
+    &__channels {
+        padding-top: 16px;
+        width: 240px;
+        height: calc(100vh - 88px);
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
+    &__channel {
+        width: 95%;
+        padding-left: 10px;
+        color: #7f8286;
+        a {
+            border-radius: 3px;
+            padding: 4.5px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            svg {
+                width: 20px;
+                height: 20px;
+            }
+            div {
+                font-size: 15px;
+                margin-left: 10px;
+                text-transform: lowercase;
+            }
+            &:hover {
+                color: rgb(230, 224, 224);
+                background: #46484e;
+            }
+        }
+    }
+    &__channel-field {
+        display: flex;
+        justify-content: space-between;
+        svg {
+            cursor: pointer;
+            &:hover {
+                color: rgb(230, 224, 224);
+            }
+        }
+    }
+    &__channel-name {
+        cursor: pointer;
+        text-transform: uppercase;
+        font-size: 13px;
+        &:hover {
+            color: rgb(230, 224, 224);
+        }
+    }
+    &__server-name {
+        color: #fff;
+        font-size: 15px;
+        font-weight: 600;
+        line-height: 20px;
+        width: 180px;
+        font-weight: 400;
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+}

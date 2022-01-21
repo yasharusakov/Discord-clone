@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, set, ref } from 'firebase/database';
+import { getDatabase, set, ref, serverTimestamp } from 'firebase/database';
 import { getStorage, getDownloadURL, ref as ref2 } from 'firebase/storage';
 
 function random() {
@@ -38,10 +38,9 @@ function Register() {
                     username: username,
                     email: email,
                     password: password,
-                    photoURL: photoURL
+                    photoURL: photoURL,
+                    createdAt: serverTimestamp()
                 });
-
-                setPhotoURL('');
             })
     }
 

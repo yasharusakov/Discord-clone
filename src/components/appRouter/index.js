@@ -30,7 +30,7 @@ function AppRouter() {
                     <Route path="/channels/@me" element={<Channels name="@me"/>}/>
                     <Route path="/channels/@me/:channelID" element={<Channels name="friend"/>}/>
                     <Route path="/channels/:channelID" element={<Channels name="channel" />}/>
-                    <Route path="/channels/:channelID/:textChannelID" element={<Channels name="channel" />}/>
+                    <Route path="/channels/:channelID/:textChannelID" element={<Channels name="channel-text" />}/>
                     <Route path="*" element={<Navigate to="/channels"/>}/>
                 </Routes>
             </div>

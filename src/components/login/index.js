@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { update, ref, getDatabase } from 'firebase/database';
+import { update, ref, getDatabase, serverTimestamp } from 'firebase/database';
 
 function Login() {
     const db = getDatabase();
@@ -15,9 +15,8 @@ function Login() {
             .then((userCredential) => {
                 const user = userCredential.user;
 
-                update(ref(db, 'users' + user.uid), {
-                    email: email,
-                    password: password
+                update(ref(db, 'users/' + user.uid), {
+                    lastLogged: serverTimestamp()
                 })
             })
     }

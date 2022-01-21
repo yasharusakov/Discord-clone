@@ -45,3 +45,15 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0; 
 }
+
+::-webkit-scrollbar {
+    width: 9px; 
+    height: 9px;
+    background-color: #292525;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #3d3d3d;
+    border-radius: 30px;
+    height: 50px;
+}

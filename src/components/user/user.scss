@@ -1,0 +1,56 @@
+.user {
+    left: 70px;
+    position: absolute;
+    bottom: 0;
+    width: 240px;
+    height: 52px;
+    background: #292b2f;
+    &__container {
+        padding: 0 8px;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+    &__data {
+        display: flex;
+        align-items: center;
+        img {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+        div {
+            margin-left: 8px;
+            h3 {
+                font-weight: 400;
+                line-height: 18px;
+                font-size: 14px;
+                color: #fff;
+                width: 90px;
+                overflow-x: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+            h4 {
+                color: grey;
+                font-size: 12px;
+            }
+        }
+    }
+    &__tools {
+        cursor: pointer;
+        color: #b9bbbe;
+        svg {
+            
+            margin: 0 8px;
+            &:first-child {
+                margin-left: 0;
+            }
+            &:last-child {
+                margin-right: 0;
+            }
+        }
+    }
+}
