@@ -7,7 +7,7 @@ import {
     onSnapshot, 
     getFirestore, 
     query, 
-    orderBy, 
+    orderBy
 } from 'firebase/firestore';
 
 import './servers.scss';
@@ -30,15 +30,17 @@ function Servers() {
     return (
         <>
             {
-                servers.map((item, i) => {
+                servers.map(item => {
                     const path = `/channels/${item.serverId}`;
                     const serverName = item.serverName.slice(0, 5);
 
                     return (
-                        <Link key={item.serverId} to={path}>
+                        <Link 
+                            key={item.serverId} 
+                            to={path}>
                             <div className="channel">
                                 {
-                                    item.serverPHOTO ? <img style={{objectFit: 'cover', width: '100%', height: '100%'}} src={item.serverPHOTO} alt={item.serverName}/> :
+                                    item.serverPhoto ? <img style={{objectFit: 'cover', width: '100%', height: '100%'}} src={item.serverPhoto} alt={item.serverName}/> :
                                     <h5 style={{color: '#fff'}}>{serverName}</h5>
                                 }
                             </div>

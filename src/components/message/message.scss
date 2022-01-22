@@ -1,0 +1,33 @@
+.message {
+    &-container {
+
+    }
+    &-row {
+        display: flex;
+    }
+    &-picture {
+        img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+        }
+    }
+    &-data {
+        width: calc(100vw - 620px - 75px - 75px);
+        margin-left: 15px;
+        div {
+            color: #fff;
+            font-weight: 400;
+        } 
+        img {
+            width: 150px;
+            height: 300px;
+            object-fit: cover;
+        }
+        p {
+            margin-top: 5px;
+            color: rgb(214, 210, 210);
+            overflow: hidden;
+        }
+    }
+}

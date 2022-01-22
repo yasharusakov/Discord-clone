@@ -1,9 +1,24 @@
-import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { getAuth } from 'firebase/auth';
+import { getDatabase, ref, onValue} from "firebase/database";
+import { useSelector, useDispatch } from 'react-redux';
+import { setUserData } from "../../slices/userSlice";
 
 import './user.scss';
 
 function User() {
     const {username, photoURL} = useSelector(state => state.user);
+
+    const dispatch = useDispatch();
+    const auth = getAuth();
+    const db = getDatabase();
+    
+    useEffect(() => {
+        const userRef = ref(db, 'users/' + auth.currentUser.uid);
+        onValue(userRef, (snapshot) => {
+            dispatch(setUserData(snapshot.val()));
+        });
+    }, [])
 
     return (
         <div className="user"> 

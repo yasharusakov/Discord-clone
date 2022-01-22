@@ -1,7 +1,7 @@
 import { Routes, Route, Navigate } from 'react-router-dom';
 import Register from '../register';
 import Login from '../login';
-import Channels from '../channels';
+import BaseLayout from '../baseLayout';
 import Loader from '../loader';
 
 import SideBarChannels from "../sideBarChannels";
@@ -27,10 +27,10 @@ function AppRouter() {
                 <Routes>
                     <Route path="/" element={<Navigate to="/channels"/>}/>
                     <Route path="/channels" element={<Navigate to="/channels/@me" />}/>
-                    <Route path="/channels/@me" element={<Channels name="@me"/>}/>
-                    <Route path="/channels/@me/:channelID" element={<Channels name="friend"/>}/>
-                    <Route path="/channels/:channelID" element={<Channels name="channel" />}/>
-                    <Route path="/channels/:channelID/:textChannelID" element={<Channels name="channel-text" />}/>
+                    <Route path="/channels/@me" element={<BaseLayout name="@me"/>}/>
+                    <Route path="/channels/@me/:channelID" element={<BaseLayout name="friend"/>}/>
+                    <Route path="/channels/:channelID" element={<BaseLayout name="channel" />}/>
+                    <Route path="/channels/:channelID/:textChannelID" element={<BaseLayout name="channel-text" />}/>
                     <Route path="*" element={<Navigate to="/channels"/>}/>
                 </Routes>
             </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, serverTimestamp, addDoc } from 'firebase/firestore';
+import { getFirestore, collection, serverTimestamp, addDoc, doc, setDoc } from 'firebase/firestore';
 import { ref, getStorage, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
 import Servers from '../servers';
@@ -8,6 +8,7 @@ import Servers from '../servers';
 import './sideBarChannels.scss';
 
 function SideBarChannels() {
+    const db = getFirestore();
     const storage = getStorage();
     const auth = getAuth();
     const [popup, setPopup] = useState(false);
@@ -37,26 +38,16 @@ function SideBarChannels() {
     }
 
     const createServer = async () => {
-        const collectionRef = collection(getFirestore(), 'servers');
+        const serverCollectionRef = collection(db, 'servers');
 
         const payload = {
             serverName: serverName,
             timestamp: serverTimestamp(),
-            serverPHOTO: url,
+            serverPhoto: url,
             serverCreator: auth.currentUser.uid,
-            textChannelGroups: [
-                {
-                    textChannelGroupName: 'Текстовые каналы',
-                    channel: {   
-                        textChannelName: 'general',
-                        textChannelID: `${Math.random()}`.replace(/\./, ''),
-                        messages: []
-                    }
-                }
-            ]
         }
-
-        await addDoc(collectionRef, payload);
+        
+        await addDoc(serverCollectionRef, payload);
 
         setPopup(false);
         setServerName('');

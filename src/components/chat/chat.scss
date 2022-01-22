@@ -1,0 +1,89 @@
+.chat {
+    width: calc(100vw - 620px);
+    position: absolute;
+    left: 310px;
+    top: 0;
+    height: 100vh;
+    background: #36393f;
+    &__container {
+        position: relative;
+    }
+    main {
+        word-wrap: break-word;
+        padding: 48px 20px 0 20px;
+        height: calc(100vh - 85px);
+        overflow-y: auto;
+        overflow-x: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-end;
+    }
+    &__form {
+        padding-top: 15px;
+        background: #36393f;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        div {
+            height: 45px;
+            background: #4c5058;
+            border-top-left-radius: 8px;
+            border-bottom-left-radius: 8px;
+            padding: 5px;
+            color: #a4a5a7;
+            cursor: pointer;
+            div {
+                cursor: pointer;
+                
+                svg, input {
+                    cursor: pointer;
+                }
+            }
+            &:hover {
+                color: #c7c7c9;
+            }
+        }
+        input {
+            background: #4c5058;
+            width: 90%;
+            height: 45px;
+            border-top-right-radius: 8px;
+            border-bottom-right-radius: 8px;
+            border: none;
+            transition: s ease;
+            padding: 10px;
+            color: #fff;
+            font-size: 16.5px;
+            outline: none;
+            &::placeholder {
+                font-size: 15.5px;
+                letter-spacing: 0.5px;
+                font-weight: 400;
+                opacity: 0.7;
+            }
+        }
+    }
+    &__header {
+        position: absolute;
+        height: 48px;
+        display: flex;
+        justify-content: left;
+        align-items: center;
+        padding: 0 18px;
+        border-bottom: 0.1px solid #000;
+        width: calc(100vw - 310px);
+        background: #36393f;
+        left: 0;
+        top: 0;
+        svg {
+            color: #72767d;
+        }
+        h3 {
+            margin-left: 10px;
+            color: #fff;
+            text-transform: lowercase;
+            font-weight: 400;
+        }
+    }
+}
