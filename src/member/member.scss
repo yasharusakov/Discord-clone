@@ -1,0 +1,17 @@
+.member {
+    margin-top: 10px;
+    display: inline-block;
+    &__container {
+        display: flex;
+        align-items: center;
+    }
+    &__username {
+        margin-left: 10px;
+    }
+    img {
+        width: 32px;
+        height: 32px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+}

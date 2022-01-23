@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { NavLink, useParams } from 'react-router-dom';
 import { getFirestore, doc, getDoc } from 'firebase/firestore';
+import User from '../user';
 
 import './sideBarChannel.scss';
 
@@ -37,6 +38,7 @@ function SideBarChannel() {
                         </NavLink>
                     </div>
                 </main> 
+                <User/>
             </div>
         </div>
     )

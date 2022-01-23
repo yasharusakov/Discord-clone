@@ -5,7 +5,6 @@ import BaseLayout from '../baseLayout';
 import Loader from '../loader';
 
 import SideBarChannels from "../sideBarChannels";
-import User from '../user';
 
 import useAuthState from '../../hooks/useAuthState';
 
@@ -23,7 +22,6 @@ function AppRouter() {
         (
             <div className="Router">
                 <SideBarChannels/>
-                <User/>
                 <Routes>
                     <Route path="/" element={<Navigate to="/channels"/>}/>
                     <Route path="/channels" element={<Navigate to="/channels/@me" />}/>

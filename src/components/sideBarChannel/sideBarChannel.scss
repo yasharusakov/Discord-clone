@@ -1,7 +1,6 @@
 .side-bar-channel {
     background:#2f3136;
-    height: calc(100vh - 52px);
-    width: 240px;
+    height: 100vh;
     &__header {
         height: 48px;
         border-bottom: 0.1px solid #000;
@@ -12,10 +11,8 @@
     }
     &__channels {
         padding-top: 16px;
-        width: 240px;
-        height: calc(100vh - 88px);
+        height: calc(100vh - 100px);
         overflow-y: auto;
-        overflow-x: hidden;
     }
     &__channel {
         width: 95%;
@@ -65,7 +62,7 @@
         font-size: 15px;
         font-weight: 600;
         line-height: 20px;
-        width: 180px;
+        min-width: 80%;
         font-weight: 400;
         overflow-x: hidden;
         text-overflow: ellipsis;

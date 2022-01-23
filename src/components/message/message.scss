@@ -1,7 +1,4 @@
 .message {
-    &-container {
-
-    }
     &-row {
         display: flex;
     }
@@ -13,7 +10,6 @@
         }
     }
     &-data {
-        width: calc(100vw - 620px - 75px - 75px);
         margin-left: 15px;
         div {
             color: #fff;
@@ -25,9 +21,10 @@
             object-fit: cover;
         }
         p {
+            max-width: 100vh;
             margin-top: 5px;
             color: rgb(214, 210, 210);
-            overflow: hidden;
+            height: auto;
         }
     }
 }
