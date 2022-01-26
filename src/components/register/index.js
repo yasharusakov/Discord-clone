@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import { getDatabase, set, ref, serverTimestamp } from 'firebase/database';
+import { getFirestore, setDoc, serverTimestamp, doc } from 'firebase/firestore';
 import { getStorage, getDownloadURL, ref as ref2 } from 'firebase/storage';
 
 function random() {
@@ -10,8 +10,8 @@ function random() {
 }
 
 function Register() {
+    const db = getFirestore();
     const storage = getStorage();
-    const db = getDatabase();
     const auth = getAuth();
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
@@ -34,7 +34,7 @@ function Register() {
 
                 const user = userCredential.user;
 
-                set(ref(db, 'users/' + user.uid), {
+                setDoc(doc(db, 'users', user.uid), {
                     username: username,
                     email: email,
                     password: password,

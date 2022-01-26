@@ -1,24 +1,23 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { doc, onSnapshot, getFirestore } from "firebase/firestore";
-import { ref, onValue, getDatabase } from 'firebase/database';
 
 import Member from '../member';
 
 import './members.scss';
 
 function Members() {
+    const db = getFirestore();
     const { channelID } = useParams();
     const [owner, setOwner] = useState({});
 
     useEffect(() => {
-        const unsub = onSnapshot(doc(getFirestore(), "servers", channelID), (doc) => {
-            const ownerID = doc.data().serverCreator;
-            const userRef = ref(getDatabase(), 'users/' + ownerID);
-            onValue(userRef, (snapshot) => {
-                const { username, photoURL } = snapshot.val()
-                setOwner({username, photoURL})
-            });
+        const unsub = onSnapshot(doc(db, "servers", channelID), (querySnapshot) => {
+            const ownerID = querySnapshot.data().serverCreator;
+            onSnapshot(doc(db, 'users', ownerID), (querySnapshot) => {
+                const { username, photoURL } = querySnapshot.data();
+                setOwner({username, photoURL, ownerID})
+            })
         });
 
         return unsub;

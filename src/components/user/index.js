@@ -1,23 +1,23 @@
 import { useEffect } from "react";
 import { getAuth } from 'firebase/auth';
-import { getDatabase, ref, onValue} from "firebase/database";
+import { getFirestore, onSnapshot, doc } from "firebase/firestore";
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserData } from "../../slices/userSlice";
 
 import './user.scss';
 
 function User() {
-    const {username, photoURL} = useSelector(state => state.user);
-
+    const db = getFirestore();
     const dispatch = useDispatch();
     const auth = getAuth();
-    const db = getDatabase();
-    
+
+    const {username, photoURL} = useSelector(state => state.user);
+
     useEffect(() => {
-        const userRef = ref(db, 'users/' + auth.currentUser.uid);
-        onValue(userRef, (snapshot) => {
-            dispatch(setUserData(snapshot.val()));
-        });
+        onSnapshot(doc(db, 'users', auth.currentUser.uid), (querySnapshot) => {
+            const {username, photoURL, email} = querySnapshot.data();
+            dispatch(setUserData({username, photoURL, email}));
+        })
     }, [])
 
     return (

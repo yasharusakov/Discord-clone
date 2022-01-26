@@ -1,10 +1,8 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import { update, ref, getDatabase, serverTimestamp } from 'firebase/database';
 
 function Login() {
-    const db = getDatabase();
     const auth = getAuth(); 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,13 +10,6 @@ function Login() {
     const signIn = (e) => {
         e.preventDefault();
         signInWithEmailAndPassword(auth, email, password)
-            .then((userCredential) => {
-                const user = userCredential.user;
-
-                update(ref(db, 'users/' + user.uid), {
-                    lastLogged: serverTimestamp()
-                })
-            })
     }
 
     return (
