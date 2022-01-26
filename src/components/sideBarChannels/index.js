@@ -3,6 +3,7 @@ import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, serverTimestamp, addDoc, doc, setDoc } from 'firebase/firestore';
 import { ref, getStorage, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { Link } from 'react-router-dom';
+import { v4 as uuidv4 } from 'uuid';
 import Servers from '../servers';
 
 import './sideBarChannels.scss';
@@ -46,8 +47,17 @@ function SideBarChannels() {
             serverPhoto: url,
             serverCreator: auth.currentUser.uid,
         }
-        
-        await addDoc(serverCollectionRef, payload);
+
+        const payload2 = {
+            textChannelName: 'general',
+            timestamp: serverTimestamp()
+        }
+
+        const serverID = await addDoc(serverCollectionRef, payload);
+        const serverID2 = uuidv4();
+        const serverID3 = uuidv4();
+        await setDoc(doc(db, `servers/${serverID.id}/textChannels`, serverID2), payload2);
+        await setDoc(doc(db, `servers/${serverID.id}/textChannels/${serverID2}/messages`, serverID3), {});
 
         setPopup(false);
         setServerName('');

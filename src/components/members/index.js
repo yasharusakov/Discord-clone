@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { doc, onSnapshot, getFirestore } from "firebase/firestore";
 import { ref, onValue, getDatabase } from 'firebase/database';
 
-import Member from '../../member';
+import Member from '../member';
 
 import './members.scss';
 
@@ -22,7 +22,7 @@ function Members() {
         });
 
         return unsub;
-    }, [])
+    }, [channelID])
 
     return (
         <div className="members">

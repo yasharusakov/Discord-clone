@@ -1,6 +1,7 @@
 .chat {
     height: 100vh;
     background: #36393f;
+    animation: page 0.5s ease forwards;
     &__container {
         section {
             display: grid;
@@ -14,6 +15,7 @@
         overflow-y: auto;
         overflow-x: hidden;
         display: grid;
+        align-content: flex-start;
         align-items: flex-end;
     }
     &__form {
