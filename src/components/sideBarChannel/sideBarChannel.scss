@@ -20,7 +20,7 @@
         color: #7f8286;
         a {
             border-radius: 3px;
-            padding: 4.5px;
+            padding: 5px;
             margin-top: 10px;
             display: flex;
             align-items: center;
@@ -37,6 +37,10 @@
                 color: rgb(230, 224, 224);
                 background: #46484e;
             }
+        }
+        .active {
+            color: #fff;
+            background: #46484e;
         }
     }
     &__channel-field {

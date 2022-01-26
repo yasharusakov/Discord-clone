@@ -66,3 +66,17 @@
         }
     }
 }
+
+.active-channel {
+    .channel {
+        background: #5865F2;
+        border-radius: 30%;
+        img {
+            border-radius: 30%;
+        }
+        &::after {
+            width: 4px;
+            height: 50%;
+        }
+    }
+}

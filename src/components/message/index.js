@@ -1,6 +1,6 @@
 import './message.scss';
 
-function Message({username, text, photoURL, fileURL}) {
+function Message({username, text, photoURL, picture}) {
     return (
         <div className="message">
             <div className="message-container">
@@ -11,7 +11,12 @@ function Message({username, text, photoURL, fileURL}) {
                     <div className="message-data">
                         <div className="message-name">{username}</div>
                         {
-                            fileURL ? <img src={fileURL} alt={fileURL} /> :
+                            picture ? (
+                                <>
+                                    <img src={picture} alt={picture} />
+                                    <p>{text}</p>
+                                </>
+                            ) :
                             <p>{text}</p>
                         }
                     </div>

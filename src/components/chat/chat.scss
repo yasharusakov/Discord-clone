@@ -5,7 +5,7 @@
     &__container {
         section {
             display: grid;
-            grid-template-columns: 1fr 240px;
+            grid-template-columns: minmax(400px, 1fr) 240px;
         }
     }
     main {
@@ -19,6 +19,15 @@
         align-items: flex-end;
     }
     &__form {
+        position: relative;
+        > h1 {
+            position: absolute;
+            left: 23px;
+            top: -10px;
+            font-size: 16px;
+            color: #fff;
+            font-weight: 400;
+        }
         padding: 20px;
         background: #36393f;
         display: flex;

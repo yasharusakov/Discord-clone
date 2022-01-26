@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 import { 
     collection, 
@@ -27,6 +27,14 @@ function Servers() {
         return unsub;
     }, [])
 
+    const isActive = ({isActive}) => {
+        if (isActive) {
+            return 'active-channel'
+        }
+
+        return '';
+    }
+
     return (
         <>
             {
@@ -35,16 +43,19 @@ function Servers() {
                     const serverName = item.serverName.slice(0, 5);
 
                     return (
-                        <Link 
+                        <NavLink 
                             key={item.serverId} 
-                            to={path}>
+                            to={path}
+                            className={isActive}
+                            >
+                                
                             <div className="channel">
                                 {
                                     item.serverPhoto ? <img style={{objectFit: 'cover', width: '100%', height: '100%'}} src={item.serverPhoto} alt={item.serverName}/> :
                                     <h5 style={{color: '#fff'}}>{serverName}</h5>
                                 }
                             </div>
-                        </Link>
+                        </NavLink>
                     )
                 })
             }

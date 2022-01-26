@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { collection, getFirestore, serverTimestamp, doc, onSnapshot, query, orderBy, setDoc } from 'firebase/firestore';
+import { ref, getStorage, uploadBytes, getDownloadURL } from 'firebase/storage';
 import { getAuth } from 'firebase/auth';
 import { v4 as uuidv4 } from 'uuid';
 import Message from '../message';
@@ -12,10 +13,13 @@ import './chat.scss';
 function Chat() {
     const auth = getAuth();
     const db = getFirestore()
+    const storage = getStorage();
+    const [loading, setloading] = useState(false);
     const { channelID, textChannelID } = useParams();
     const [text, setText] = useState('');
     const [messages, setMessages] = useState();
     const {username, photoURL} = useSelector(state => state.user);
+    const [file, setFile] = useState(null);
     const channelName = useSelector(state => state.server.channelName);
 
     useEffect(() => {
@@ -29,29 +33,41 @@ function Chat() {
                 setMessages(items)
             })
         }
-    }, [channelID, textChannelID])
+    }, [channelID, textChannelID]);
 
-    const sendMessage = async (e) => {
-        e.preventDefault();
+    let url = '';
 
+    const uploadPHOTO = async () => {
+        if (file) {
+            const storageRef = ref(storage, `/files/${file.name}`);
+            await uploadBytes(storageRef, file);
+            await getDownloadURL(storageRef)
+            .then((serverURL) => {
+                url = serverURL;
+            })
+        }
+    }
+
+    const sendMessage = async () => {
         const id = uuidv4();
 
-        const payload = {
-            username: username,
-            photoURL: photoURL,
-            text: text,
-            userID: auth.currentUser.uid,
-            timestamp: serverTimestamp()
+        if (text || url) {
+            const payload = {
+                username: username,
+                photoURL: photoURL,
+                text: text,
+                userID: auth.currentUser.uid,
+                picture: url,
+                timestamp: serverTimestamp()
+            }
+    
+            await setDoc(doc(db, "servers", channelID, 'textChannels', textChannelID, "messages", id), payload);
         }
-
-        await setDoc(doc(db, "servers", channelID, 'textChannels', textChannelID, "messages", id), payload);
-
-        setText('');
     }
 
     const elements = messages ? textChannelID ? messages.map(item => {
-        return <Message key={item.id} username={item.username} photoURL={item.photoURL} text={item.text} />
-    }) : '' : '';
+        return <Message key={item.id} username={item.username} photoURL={item.photoURL} text={item.text} picture={item.picture} />
+    }) : null : null;
 
     return (
         <div className="chat">
@@ -67,15 +83,39 @@ function Chat() {
                         }}>
                             {elements}
                         </main>
-                        <form onSubmit={sendMessage} className="chat__form">
-                            <div>
-                                <div style={{width: '24px', height: '24px', position: 'relative'}}>
-                                    <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"></path></svg>
-                                    <input type="file" accept=".jpg,.jpeg,.png,.gif" style={{position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%', opacity: '0', cursor: 'pointer', fontSize: '0px'}} />
+                        {
+                            textChannelID ? 
+                            <form onSubmit={async (e) => {
+                                e.preventDefault();
+                                setloading(true);
+                                await uploadPHOTO()
+                                await sendMessage();
+                                setloading(false);
+                                setFile(null);
+                                setText('');
+                                url = '';
+                            }} className="chat__form">
+                                {
+                                    file ? <h1>{file.name}</h1> : null
+                                }
+                                <div>
+                                    <div style={{width: '24px', height: '24px', position: 'relative'}}>
+                                        <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"></path></svg>
+                                        <input 
+                                            disabled={loading} 
+                                            onChange={(e) => setFile(e.target.files[0])} 
+                                            type="file" accept=".jpg,.jpeg,.png,.gif" 
+                                            style={{position: 'absolute', top: '0px', left: '0px', width: '100%', height: '100%', opacity: '0', cursor: 'pointer', fontSize: '0px'}} />
+                                    </div>
                                 </div>
-                            </div>
-                            <input value={text} onChange={(e) => setText(e.target.value)} autoComplete="off" placeholder={"Написать #" + channelName} type="text" />
-                        </form>
+                                <input 
+                                    disabled={loading} 
+                                    value={text} 
+                                    onChange={(e) => setText(e.target.value)} 
+                                    autoComplete="off" 
+                                    placeholder={"Написать #" + channelName} type="text" />
+                            </form> : null
+                        }
                     </div>
                     <Members/>
                 </section>
