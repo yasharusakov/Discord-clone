@@ -43,6 +43,8 @@ function SideBarChannel() {
             }
         });
 
+        return unsub;
+
     }, [channelID, textChannelID]);
 
     const createTextChannel = async () => {

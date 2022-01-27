@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { doc, onSnapshot, getFirestore } from "firebase/firestore";
+import { doc, onSnapshot, getFirestore, collection } from "firebase/firestore";
 
 import Member from '../member';
 
@@ -9,9 +9,11 @@ import './members.scss';
 function Members() {
     const db = getFirestore();
     const { channelID } = useParams();
+    const [members, setMembers] = useState();
     const [owner, setOwner] = useState({});
 
     useEffect(() => {
+
         const unsub = onSnapshot(doc(db, "servers", channelID), (querySnapshot) => {
             const ownerID = querySnapshot.data().serverCreator;
             onSnapshot(doc(db, 'users', ownerID), (querySnapshot) => {
@@ -20,8 +22,22 @@ function Members() {
             })
         });
 
+        if (owner.ownerID) {
+            return onSnapshot(collection(db, "users"), (querySnapshot) => {
+                querySnapshot.docs.forEach(item => {
+                    const items = [];
+                    if (owner.ownerID !== item.id) {
+                        items.push({id: item.id, ...item.data()});
+                    }
+                    setMembers(items);
+                })
+            });
+        }
+
         return unsub;
     }, [channelID])
+
+    const elements = members ? members.map(item => <Member key={item.id} username={item.username} photoURL={item.photoURL} />) : 0
 
     return (
         <div className="members">
@@ -33,9 +49,9 @@ function Members() {
                 </div>
             </div>
             <div className="members__users">
-                <div className="members__header">В СЕТИ - 100</div>
+                <div className="members__header">В СЕТИ - {members ? members.length : 0}</div>
                 <div>
-                    {/* <Member/> */}
+                    {elements}
                 </div>
             </div>
         </div>

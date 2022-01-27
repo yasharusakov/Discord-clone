@@ -17,23 +17,23 @@ function Chat() {
     const [loading, setloading] = useState(false);
     const { channelID, textChannelID } = useParams();
     const [text, setText] = useState('');
-    const [messages, setMessages] = useState();
+    const [messages, setMessages] = useState([]);
     const {username, photoURL} = useSelector(state => state.user);
     const [file, setFile] = useState(null);
     const channelName = useSelector(state => state.server.channelName);
 
     useEffect(() => {
         if (textChannelID) {
-            const q2 = query(collection(db, "servers", channelID, "textChannels", textChannelID, "messages"), orderBy('timestamp'));
-            onSnapshot(q2, (querySnapshot) => {
+            const q2 = query(collection(db, "servers", channelID, "textChannels", textChannelID, "messages"), orderBy('timestamp'));        
+            return onSnapshot(q2, (querySnapshot) => {
                 const items = [];
                 querySnapshot.forEach(doc => {
-                    items.push(({id: doc.id, ...doc.data()}));
+                    items.push({id: doc.id, ...doc.data()});
                 })
                 setMessages(items)
             })
-        }
 
+        }
     }, [channelID, textChannelID]);
 
     let url = '';
@@ -96,7 +96,7 @@ function Chat() {
                                 setText('');
                                 url = '';
                             }} className="chat__form">
-                                {file ? <div>{file.name}</div> : null}
+                                {file ? <h1>{file.name}</h1> : null}
                                 <div>
                                     <div style={{width: '24px', height: '24px', position: 'relative'}}>
                                         <svg width="24" height="24" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.00098C6.486 2.00098 2 6.48698 2 12.001C2 17.515 6.486 22.001 12 22.001C17.514 22.001 22 17.515 22 12.001C22 6.48698 17.514 2.00098 12 2.00098ZM17 13.001H13V17.001H11V13.001H7V11.001H11V7.00098H13V11.001H17V13.001Z"></path></svg>
