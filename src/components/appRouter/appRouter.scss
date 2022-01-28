@@ -3,4 +3,6 @@
     animation: page 0.5s ease forwards;
     display: grid;
     grid-template-columns: 70px 1fr;
+    height: 100vh;
+    overflow-y: hidden;
 }

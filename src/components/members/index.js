@@ -22,22 +22,27 @@ function Members() {
             })
         });
 
-        if (owner.ownerID) {
-            return onSnapshot(collection(db, "users"), (querySnapshot) => {
-                querySnapshot.docs.forEach(item => {
-                    const items = [];
-                    if (owner.ownerID !== item.id) {
-                        items.push({id: item.id, ...item.data()});
-                    }
-                    setMembers(items);
-                })
-            });
-        }
-
         return unsub;
     }, [channelID])
 
-    const elements = members ? members.map(item => <Member key={item.id} username={item.username} photoURL={item.photoURL} />) : 0
+    useEffect(() => {
+        const unsub2 = onSnapshot(collection(db, "users"), (querySnapshot) => {
+            if (owner.ownerID) {
+                const items = [];
+                querySnapshot.docs.forEach(item => {
+                    if (owner.ownerID !== item.id) {
+                        items.push({id: item.id, ...item.data()});
+                    }
+                })
+                setMembers(items);
+            }
+        });
+
+        return unsub2;
+
+    }, [channelID, owner.ownerID])
+
+    const elements = members ? members.map(item => <Member key={item.id} username={item.username} photoURL={item.photoURL} />) : null;
 
     return (
         <div className="members">

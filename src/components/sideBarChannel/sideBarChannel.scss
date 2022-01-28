@@ -1,6 +1,10 @@
 .side-bar-channel {
-    background:#2f3136;
     height: 100vh;
+    background:#2f3136;
+    &__container {
+        display: grid;
+        grid-template-rows: 48px calc(100vh - 52px - 48px) 52px;
+    }
     &__header {
         height: 48px;
         border-bottom: 0.1px solid #000;
@@ -11,7 +15,6 @@
     }
     &__channels {
         padding-top: 16px;
-        height: calc(100vh - 100px);
         overflow-y: auto;
     }
     &__channel {
